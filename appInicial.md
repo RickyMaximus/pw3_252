@@ -173,7 +173,8 @@ Este guia ensina como criar um projeto React utilizando Vite e configurar o Fire
 
 1. Localize o arquivo `index.css` e substitua seu conteúdo pelo seguinte:
 
-    ```css
+```css
+    
 @import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400;1,500&display=swap");
 
 * {
@@ -430,9 +431,6 @@ table tr th {
   text-align: left;
 }
 
-
-
-
 @media (max-width: 768px) {
   .books-list {
     grid-template-columns: 1fr 1fr;
@@ -550,7 +548,7 @@ table tr th {
   background-color: #00b339; /* Cor ao passar o mouse */
 }
 
-    ```
+```
 
     > **Obs.:** Mantenha todos os estilos do arquivo original.
 
