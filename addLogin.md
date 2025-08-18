@@ -164,13 +164,35 @@ function handleLogin(e) {
   e.preventDefault();
   // Implemente a lógica de login aqui
   // Mostre os dados do login no console.log
+        e.preventDefault();
+
+        signInWithEmailAndPassword(auth, userCredenciais.email, userCredenciais.password)
+        .then((userCredential) => {
+            // Signed up 
+            const user = userCredential.user;
+            console.log(user)
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode)
+            console.log(errorMessage)
+
+            //setError( errorMessage)
+
+            // ..
+        }); 
+
+
+
 }
 ```
 
-- Adicione um botão:
+- Adicione no botão "Entrar":
 
 ```jsx
-<button onClick={handleLogin}>Login</button>
+<button onClick={(e)=>handleSignUp(e)}>Entrar</button>
 ```
 
 ---
@@ -187,10 +209,11 @@ function handlePasswdReset(e) {
 }
 ```
 
-- Adicione um botão:
+- Adicione um link:
 
 ```jsx
-<button onClick={handlePasswdReset}>Redefinir Senha</button>
+ <p  onClick={handlePasswordReset} className="forgot-password">Esqueci minha senha.</p>
+                  
 ```
 
 ---
