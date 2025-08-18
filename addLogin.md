@@ -105,7 +105,7 @@ function handleCred(e) {
 - Adicione um botão para cadastro com `onClick`:
 
 ```jsx
-<button onClick={handleSignUp}>Cadastrar</button>
+<button onClick={(e)=>handleSignUp(e)}>Cadastrar</button>
 ```
 
 - Crie a função de cadastro:
@@ -164,7 +164,6 @@ function handleLogin(e) {
   e.preventDefault();
   // Implemente a lógica de login aqui
   // Mostre os dados do login no console.log
-        e.preventDefault();
 
         signInWithEmailAndPassword(auth, userCredenciais.email, userCredenciais.password)
         .then((userCredential) => {
@@ -192,7 +191,7 @@ function handleLogin(e) {
 - Adicione no botão "Entrar":
 
 ```jsx
-<button onClick={(e)=>handleSignUp(e)}>Entrar</button>
+<button onClick={(e)=>handleLogin(e)}>Entrar</button>
 ```
 
 ---
@@ -206,6 +205,8 @@ function handleLogin(e) {
 function handlePasswdReset(e) {
   e.preventDefault();
   // Implemente a lógica de redefinição de senha aqui
+  const email = prompt('Informe seu e-mail:')
+  sendPasswordResetEmail(auth, email)
 }
 ```
 
