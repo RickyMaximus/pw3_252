@@ -40,3 +40,5 @@ Deve rodar uma página parecida com https://etec25-95021.web.app/
 
  
 Para mais informações e imagens, Acessar tutorial:
+https://github.com/Caetanocc/pw3_252/blob/main/FirebaseHosting.pdf
+
