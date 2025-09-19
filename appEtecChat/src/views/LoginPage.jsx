@@ -1,5 +1,6 @@
 import {auth} from '../firebase/config.js'
 import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import {  
          createUserWithEmailAndPassword         ,
          sendPasswordResetEmail,
@@ -11,6 +12,7 @@ import {
 
 
 function LoginPage() {
+    const navigate = useNavigate();
 
     const [loginType, setLoginType] = useState('login');
     const [userCredenciais, setUserCredenciais] = useState({})
@@ -62,6 +64,7 @@ function LoginPage() {
 
             // ..
         }); 
+        navigate('/'); // redireciona para a home após login
     }
 
     function handlePasswordReset(){

@@ -4,11 +4,29 @@ import { db, auth } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 import './UserProfilePage.css';
 import Header from '../components/Header';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react'
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const AddContactPage = () => {
-  const pageTitle = "Adicionar Contato";
+  const { id } = useParams(); // vai ser undefined se estiver no modo de criação
+  const pageTitle = id ? "Editar Contato" : "Adicionar Contato";
   const navigate = useNavigate();
   const [contactUserId, setContactUserId] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      const fetchContact = async () => {
+        const docRef = doc(db, 'contacts', id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setFormData(docSnap.data());
+        }
+      };
+  
+      fetchContact();
+    }
+  }, [id]);
 
   const [formData, setFormData] = useState({
     email: '',
@@ -77,37 +95,37 @@ const AddContactPage = () => {
     setError('');
     setSuccess(false);
 
-    if (!auth.currentUser) {
-      setError('Usuário não autenticado.');
-      return;
-    }
-
-    if (!formData.fullName || !formData.phone) {
-      setError('Nome e telefone são obrigatórios.');
-      return;
-    }
-
     try {
       setLoading(true);
-
-      // Adiciona o contato na coleção "contacts"
-      await addDoc(collection(db, 'contacts'), {
+      const contactData = {
         ...formData,
-        contactUserId: contactUserId || null, 
-        createdBy: auth.currentUser.uid, // Usuário autenticado que adicionou o contato
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      });
+        updatedAt: new Date().toISOString(),
+      };
+
+      if (id) {
+        // modo edição
+        const contactRef = doc(db, 'contacts', id);
+        await updateDoc(contactRef, contactData);
+      } else {
+        // modo criação
+        await addDoc(collection(db, 'contacts'), {
+          ...contactData,
+          createdBy: auth.currentUser.uid,
+          contactUserId: contactUserId || null, 
+          createdAt: new Date().toISOString()
+        });
+      }
 
       setSuccess(true);
-      setFormData({ email: '', fullName: '', photo: '', phone: '' });
-      navigate("/"); // Redireciona para a lista de contatos
-    } catch (err) {
-      setError(err.message || 'Erro ao salvar o contato.');
+      navigate('/');
+    } catch (error) {
+      setError('Erro ao salvar contato');
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <>
